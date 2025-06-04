@@ -46,6 +46,10 @@ int topScreenCursor = 0;
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
+void updateCursor(int cursorPosition) {
+  // Clear the previous cursor and re-draw the new one
+}
+
 int main(int argc, char *argv[])
 {
     touchPosition touch;
@@ -97,6 +101,7 @@ int main(int argc, char *argv[])
             {
                 topScreenCursor--;
             }
+            updateCursor(topScreenCursor);
         }
         else if (keys & KEY_RIGHT)
         {
@@ -108,6 +113,7 @@ int main(int argc, char *argv[])
             {
                 topScreenCursor++;
             }
+            updateCursor(topScreenCursor);
         }
     }
     return 0;
