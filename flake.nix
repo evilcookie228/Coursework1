@@ -58,7 +58,7 @@
         src = ./.;
 
         # `TARGET` determines the name of the executable.
-        makeFlags = ["TARGET=game.nds"];
+        makeFlags = ["TARGET=game"];
         # The shell hook is used in the build to point your build system to
         # devkitPro.
         preBuild = pkgs.devkitNix.devkitARM.shellHook;
