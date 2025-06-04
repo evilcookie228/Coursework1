@@ -1,5 +1,6 @@
 #include <nds.h>
 #include <stdio.h>
+#include "topscreenbackground.h"
 
 typedef enum {
     ELEMENT_NONE,
@@ -68,6 +69,10 @@ int main(int argc, char *argv[])
     
     setBackdropColor(GRAY);
     setBackdropColorSub(GRAY); //testing
+
+    int bg3 = bgInit(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
+    dmaCopy(topscreenbackgroundBitmap, bgGetGfxPtr(bg3), topscreenbackgroundBitmapLen);
+    dmaCopy(topscreenbackgroundPal, BG_PALETTE, topscreenbackgroundPalLen);
     
     while (pmMainLoop())
     {
