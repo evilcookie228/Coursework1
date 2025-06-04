@@ -327,7 +327,7 @@ void updateInstructions() {
     iprintf("\x1b[21;0HOffset: %d,%d", canvasOffsetX, canvasOffsetY);
 }
 
-int main(void) {
+int maind(void) {
     init();
     updateInstructions();
     
