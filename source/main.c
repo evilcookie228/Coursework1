@@ -22,12 +22,20 @@ typedef struct {
 } BPMNElement;
 
 #define MAX_ELEMENTS 100
+#define GREEN RGB15(0, 31, 0)
+#define RED RGB15(31, 0, 0)
+#define WHITE RGB15(31, 31, 31)
+#define BLACK RGB15(0, 0, 0)
+#define GRAY RGB15(15, 15, 15)
+#define BLUE RGB15(0, 0, 31)
 BPMNElement elements[MAX_ELEMENTS];
 BPMNElementType currentTool = TASK;
 int canvasOffsetX = 0;
 int canvasOffsetY = 0;
 int drawingFlow = 0;
 int flowStartElement = -1;
+int topScreenCursor = 0;
+
 
 #ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -49,6 +57,7 @@ int main(int argc, char *argv[])
 
     vramSetBankA(VRAM_A_MAIN_BG); //Selecting slot A of VRAM to be allocated as a background layer
 	vramSetBankC(VRAM_C_SUB_BG); //Selecting slot C of VRAM to be allocated as a background layer
+    vramSetBankD(VRAM_D_SUB_SPRITE); //Selecting Slot D to draw Sprites (Nodes)
 
     consoleInit(&topScreen, 3,BgType_Text4bpp, BgSize_T_256x256, 31, 0, true, true);
 	consoleInit(&bottomScreen, 3,BgType_Text4bpp, BgSize_T_256x256, 31, 0, false, true);
@@ -57,8 +66,8 @@ int main(int argc, char *argv[])
     consoleSelect(&topScreen);
     iprintf("\tI'm Surprised this shit works\n");
     
-    setBackdropColor(0xF800);
-    setBackdropColorSub(0xFFE0); //testing
+    setBackdropColor(GRAY);
+    setBackdropColorSub(GRAY); //testing
     
     while (pmMainLoop())
     {
@@ -73,6 +82,28 @@ int main(int argc, char *argv[])
 		int keys = keysDown();
 
 		if(keys & KEY_START) break;
+        else if (keys & KEY_LEFT)
+        {
+            if (topScreenCursor == 0)
+            {
+                topScreenCursor = 5;
+            }
+            else
+            {
+                topScreenCursor--;
+            }
+        }
+        else if (keys & KEY_RIGHT)
+        {
+            if (topScreenCursor == 5)
+            {
+                topScreenCursor = 0;
+            }
+            else
+            {
+                topScreenCursor++;
+            }
+        }
     }
     return 0;
 }
