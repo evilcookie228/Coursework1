@@ -21,6 +21,51 @@ typedef struct {
     int connectionCount;
 } BPMNElement;
 
+#define MAX_ELEMENTS 100
+BPMNElement elements[MAX_ELEMENTS];
+BPMNElementType currentTool = TASK;
+int canvasOffsetX = 0;
+int canvasOffsetY = 0;
+int drawingFlow = 0;
+int flowStartElement = -1;
+
+#ifndef MAX
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#endif
+
+#ifndef MIN
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#endif
+
+void drawRoundedRect(int x, int y, int w, int h, int r, u16 color) {
+    // Corners
+    drawCircle(x + r, y + r, r, color);
+    drawCircle(x + w - r, y + r, r, color);
+    drawCircle(x + r, y + h - r, r, color);
+    drawCircle(x + w - r, y + h - r, r, color);
+    
+    // Borders
+    drawRect(x + r, y, w - 2*r, h, color);
+    drawRect(x, y + r, w, h - 2*r, color);
+}
+
+void drawCircle(int x, int y, int radius, u16 color) {
+    for(int angle = 0; angle < 360; angle++) {
+        int px = x + (radius * cosLerp(angle * 10));
+        int py = y + (radius * sinLerp(angle * 10));
+        if(px >= 0 && px < DISPLAY_WIDTH && py >= 0 && py < DISPLAY_HEIGHT) {
+            VRAM_A[py * DISPLAY_WIDTH + px] = color;
+        }
+    }
+}
+
+void drawDiamond(int x, int y, int w, int h, u16 color) {
+    drawLine(x, y - h/2, x + w/2, y, color);
+    drawLine(x + w/2, y, x, y + h/2, color);
+    drawLine(x, y + h/2, x - w/2, y, color);
+    drawLine(x - w/2, y, x, y - h/2, color);
+}
+
 int main(int argc, char *argv[])
 {
     touchPosition touch;
