@@ -48,6 +48,7 @@
           name = "Nintendo DS shell";
           buildInputs = [
             pkgs.devkitNix.devkitARM
+            pkgs.gcc13
           ];
           inherit (pkgs.devkitNix.devkitARM) shellHook;
         };
@@ -57,7 +58,7 @@
         src = ./.;
 
         # `TARGET` determines the name of the executable.
-        makeFlags = ["TARGET=Coursework"];
+        makeFlags = ["TARGET=game.nds"];
         # The shell hook is used in the build to point your build system to
         # devkitPro.
         preBuild = pkgs.devkitNix.devkitARM.shellHook;
@@ -65,7 +66,7 @@
         # executable. If your project outputs multiple files, make `$out` a
         # directory and copy everything there.
         installPhase = ''
-          cp example.nro $out
+          cp game.nds $out
         '';
       };
 
