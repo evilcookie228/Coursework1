@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
 {
     touchPosition touch;
 
-    videoSetMode(MODE_0_2D); //Initiallizing Video for Top Screen
-	videoSetModeSub(MODE_0_2D); //Initiallizing Video for Bottom Screen
+    videoSetMode(MODE_5_2D); //Initiallizing Video for Top Screen
+	videoSetModeSub(MODE_5_2D); //Initiallizing Video for Bottom Screen
 
     PrintConsole topScreen;
 	PrintConsole bottomScreen;
