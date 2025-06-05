@@ -66,7 +66,8 @@
         # executable. If your project outputs multiple files, make `$out` a
         # directory and copy everything there.
         installPhase = ''
-          cp game.nds $out
+          mkdir $out
+          cp game.nds game.elf $out
         '';
       };
 
