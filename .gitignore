@@ -1,5 +1,4 @@
 *.elf
 *.nds
 build/*
-result/*
-/nix/store/*
+**/result
