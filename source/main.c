@@ -69,6 +69,7 @@ void drawCursor(u16* cursor1)
 			cursor1, -1, false, false, false, false, false);
     }
     oamUpdate(&oamMain);
+<<<<<<< Updated upstream
 }
 
 
@@ -82,6 +83,8 @@ void updateMainSprites() {
       }
     }
   }
+=======
+>>>>>>> Stashed changes
 }
 
 #ifndef MAX
@@ -93,7 +96,10 @@ void updateMainSprites() {
 #endif
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 int main(int argc, char *argv[])
