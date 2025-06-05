@@ -2,3 +2,4 @@
 *.nds
 build/*
 result/*
+/nix/store/*
