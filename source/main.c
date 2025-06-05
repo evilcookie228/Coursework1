@@ -22,7 +22,7 @@ typedef struct {
     int id;
     int connectedTo[10];
     int connectionCount;
-    uint16* sprite;
+    u16* sprite;
 } BPMNElement;
 
 #define ROWS 16
@@ -69,7 +69,6 @@ void drawCursor(u16* cursor1)
 			cursor1, -1, false, false, false, false, false);
     }
     oamUpdate(&oamMain);
-<<<<<<< Updated upstream
 }
 
 
@@ -83,8 +82,6 @@ void updateMainSprites() {
       }
     }
   }
-=======
->>>>>>> Stashed changes
 }
 
 #ifndef MAX
@@ -95,13 +92,6 @@ void updateMainSprites() {
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 int main(int argc, char *argv[])
 {
     touchPosition touch;
@@ -135,7 +125,7 @@ int main(int argc, char *argv[])
 	{  
         cursor2[i] = 1 | (1 << 8);
     }
-    SPRITE_PALETTE[0] = RGB15(225, 225, 50);
+    SPRITE_PALETTE[1] = RGB15(225, 225, 50);
 
     while (pmMainLoop())
     {
@@ -171,19 +161,19 @@ int main(int argc, char *argv[])
             }
             drawCursor(cursor2);
         }
-        else if (keys & KEY_B)
+        else if (keys & KEY_DOWN)
         {
           canvasOffsetX ++;
         }
-        else if (keys & KEY_A)
+        else if (keys & KEY_RIGHT)
         {
           canvasOffsetX ++;
         }
-        else if (keys & KEY_X)
+        else if (keys & KEY_UP)
         {
           canvasOffsetX --;
         }
-        else if (keys & KEY_Y)
+        else if (keys & KEY_LEFT)
         {
           canvasOffsetY --;
         }
