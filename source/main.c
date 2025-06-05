@@ -76,6 +76,10 @@ void drawCursor(u16* cursor1)
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
+void updateCursor(int cursorPosition) {
+  // Clear the previous cursor and re-draw the new one
+}
+
 int main(int argc, char *argv[])
 {
     touchPosition touch;
