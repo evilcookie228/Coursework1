@@ -12,18 +12,24 @@ typedef enum {
     TASK,
     GATEWAY,
     FLOW
-} BPMNElementType;
+} BPMNElementType ;
 
 // Structure for BPMN elements
 typedef struct {
     BPMNElementType type;
-    int connectedTo[10];
+    int startrow;
+    int startcolumn;
+    int endrow;
+    int endcolumn;
     int connectionCount;
-    u16* sprite;
 } BPMNElement;
 
-#define ROWS 16
-#define COLUMNS 16
+
+#define DISPLAY_WIDTH 256
+#define DISPLAY_HEIGHT 192
+
+#define ROWS 20
+#define COLUMNS 50
 #define SIZE_X 16
 #define SIZE_Y 16
 #define GREEN RGB15(0, 31, 0)
@@ -33,14 +39,12 @@ typedef struct {
 #define GRAY RGB15(15, 15, 15)
 #define BLUE RGB15(0, 0, 31)
 BPMNElement elements[ROWS][COLUMNS];
+BPMNElement flows[128];
 BPMNElementType currentTool = TASK;
-int canvasOffsetX = SIZE_X * ROWS / 2;
-int canvasOffsetY = SIZE_Y * COLUMNS / 2;
+int canvasOffsetX = 0;
+int canvasOffsetY = 0;
 int drawingFlow = 0;
-int flowStartElement = -1;
 int topScreenCursor = 0;
-
-
 
 void drawCursor(u16* cursor1)
 {
@@ -71,19 +75,6 @@ void drawCursor(u16* cursor1)
 			cursor1, -1, false, false, false, false, false);
     }
     oamUpdate(&oamMain);
-}
-
-
-void updateMainSprites() {
-  int i, j;
-  for (i = 0; i < ROWS; i ++) {
-    for (j = 0; j < COLUMNS; j ++) {
-      if (elements[i][j].type != ELEMENT_NONE) {
-        oamSet(&oamSub, 3, i * SIZE_X + canvasOffsetX, j * SIZE_Y + canvasOffsetY, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
-			elements[i][j].sprite, -1, false, false, false, false, false);
-      }
-    }
-  }
 }
 
 #ifndef MAX
@@ -121,24 +112,13 @@ int main(int argc, char *argv[])
     int bg3 = bgInit(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
     dmaCopy(topscreenbackgroundBitmap, bgGetGfxPtr(bg3), topscreenbackgroundBitmapLen);
     dmaCopy(topscreenbackgroundPal, BG_PALETTE, topscreenbackgroundPalLen); //Adding Icons and Text because rendering is for bitches
-    
+
     u16* cursor2 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
     for(int i = 0; i < 32 * 32 / 2; i++)
 	{  
         cursor2[i] = 1 | (1 << 8);
     }
     SPRITE_PALETTE[1] = RGB15(225, 225, 50);
-
-    for (int i = 0; i < ROWS; i ++) {
-      for (int j = 0; j < COLUMNS; j ++) {
-        // ZERO OUT THE elements, idk how to do that
-        elements[i][j].type = ELEMENT_NONE;
-        for (int k = 0; k < 10; k ++) {
-          elements[i][j].connectedTo[k] = -1;
-        }
-        elements[i][j].sprite = NULL;
-      }
-    }
 
     while (pmMainLoop())
     {
@@ -176,31 +156,37 @@ int main(int argc, char *argv[])
         }
         else if (keys & KEY_DOWN)
         {
-          canvasOffsetX ++;
+          canvasOffsetY++;
         }
         else if (keys & KEY_RIGHT)
         {
-          canvasOffsetX ++;
+          canvasOffsetX++;
         }
         else if (keys & KEY_UP)
         {
-          canvasOffsetX --;
+          canvasOffsetX--;
         }
         else if (keys & KEY_LEFT)
         {
-          canvasOffsetY --;
+          canvasOffsetY--;
         }
         else if (keys & KEY_TOUCH)
         {
-            int gridXPos = (canvasOffsetX + touch.px) / SIZE_X;
-            int gridYPos = (canvasOffsetY + touch.py) / SIZE_Y;
-            elements[gridXPos][gridYPos].type = ELEMENT_NONE;
-            elements[gridXPos][gridYPos].sprite = NULL;
+            for (int i = 0; i < 256 * 192; i++) 
+            {
+                BG_GFX_SUB[i] = GRAY; // White background
+            }
+            int gridXPos = touch.px / SIZE_X;
+            int gridYPos = touch.py / SIZE_Y;
+            for (int i = 0; i < 16; i++)
+            {
+                for(int j = 0; j < 16; i++)
+                {
+                    BG_GFX_SUB[(j + gridYPos) * 256 + i + gridXPos] = BLUE;
+                }
+            }
             // TODO: update to relevant types based on topScreenCursor
-        }
-
-        updateMainSprites();
-      
+        }      
     }
     return 0;
 }
