@@ -22,7 +22,7 @@ typedef struct {
     int id;
     int connectedTo[10];
     int connectionCount;
-    uint16& sprite;
+    uint16* sprite;
 } BPMNElement;
 
 #define ROWS 16
