@@ -77,6 +77,22 @@ void drawCursor(u16* cursor1)
     oamUpdate(&oamMain);
 }
 
+<<<<<<< HEAD
+=======
+
+void updateMainSprites() {
+  int i, j;
+  for (i = 0; i < ROWS; i ++) {
+    for (j = 0; j < COLUMNS; j ++) {
+      if (elements[i][j].type != ELEMENT_NONE) {
+        oamSet(&oamSub, 3, i * SIZE_X + canvasOffsetX, j * SIZE_Y + canvasOffsetY, 0, 0, SpriteSize_16x16, SpriteColorFormat_256Color,
+			elements[i][j].sprite, -1, false, false, false, false, false);
+      }
+    }
+  }
+}
+
+>>>>>>> c280d9cad9fc2ddf0ed737ae5ab0520f8c47fcaa
 #ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif
