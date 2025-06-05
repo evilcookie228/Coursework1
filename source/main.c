@@ -79,7 +79,7 @@ void updateMainSprites() {
   for (i = 0; i < ROWS; i ++) {
     for (j = 0; j < COLUMNS; j ++) {
       if (elements[i][j].type != ELEMENT_NONE) {
-        oamSet(&oamSub, 3, i * SIZE_X + canvasOffsetX, j * SIZE_Y + canvasOffsetY, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+        oamSet(&oamSub, 3, i * SIZE_X + canvasOffsetX, j * SIZE_Y + canvasOffsetY, 0, 0, SpriteSize_16x16, SpriteColorFormat_256Color,
 			elements[i][j].sprite, -1, false, false, false, false, false);
       }
     }
