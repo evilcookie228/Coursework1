@@ -50,23 +50,28 @@ void drawCursor(u16* cursor1)
     switch (topScreenCursor)
     {
         case 0:
-        oamSet(&oamMain, 3, 45, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 45, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
         case 1:
-        oamSet(&oamMain, 3, 115, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 115, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
+            break;
         case 2:
-        oamSet(&oamMain, 3, 190, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 190, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
+            break;
         case 3:
-        oamSet(&oamMain, 3, 45, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 45, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
+            break;
         case 4:
-        oamSet(&oamMain, 3, 116, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 116, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
+            break;
         case 5:
-        oamSet(&oamMain, 3, 190, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 190, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
+            break;
     }
     oamUpdate(&oamMain);
 }
