@@ -69,7 +69,6 @@ void drawCursor(u16* cursor1)
 			cursor1, -1, false, false, false, false, false);
     }
     oamUpdate(&oamMain);
-    
 }
 
 
@@ -93,7 +92,10 @@ void updateMainSprites() {
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 int main(int argc, char *argv[])
 {
     touchPosition touch;
@@ -105,12 +107,12 @@ int main(int argc, char *argv[])
 	PrintConsole bottomScreen;
 
     vramSetBankA(VRAM_A_MAIN_BG); //Selecting slot A of VRAM to be allocated as a background layer
-    vramSetBankA(VRAM_A_MAIN_SPRITE);
+    vramSetBankB(VRAM_B_MAIN_SPRITE);
 	vramSetBankC(VRAM_C_SUB_BG); //Selecting slot C of VRAM to be allocated as a background layer
     vramSetBankD(VRAM_D_SUB_SPRITE); //Selecting Slot D to draw Sprites (Nodes)
 
-    consoleInit(&topScreen, 2,BgType_Text4bpp, BgSize_T_256x256, 31, 0, true, true);
-	consoleInit(&bottomScreen, 2,BgType_Text4bpp, BgSize_T_256x256, 31, 0, false, true);
+    consoleInit(&topScreen, 3,BgType_Text4bpp, BgSize_T_256x256, 31, 0, true, true);
+	consoleInit(&bottomScreen, 3,BgType_Text4bpp, BgSize_T_256x256, 31, 0, false, true);
     oamInit(&oamMain, SpriteMapping_1D_128, false);
     //turning on consoles
 
@@ -118,8 +120,8 @@ int main(int argc, char *argv[])
     //setBackdropColor(GRAY);
     setBackdropColorSub(GRAY);
 
-    int bg0 = bgInit(2, BgType_Bmp8, BgSize_B8_256x256, 0,0);
-    dmaCopy(topscreenbackgroundBitmap, bgGetGfxPtr(bg0), topscreenbackgroundBitmapLen);
+    int bg3 = bgInit(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
+    dmaCopy(topscreenbackgroundBitmap, bgGetGfxPtr(bg3), topscreenbackgroundBitmapLen);
     dmaCopy(topscreenbackgroundPal, BG_PALETTE, topscreenbackgroundPalLen); //Adding Icons and Text because rendering is for bitches
     
     u16* cursor2 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
@@ -139,7 +141,7 @@ int main(int argc, char *argv[])
 		int keys = keysDown();
 
 		if(keys & KEY_START) break;
-        else if (keys & KEY_LEFT)
+        else if (keys & KEY_L)
         {
             if (topScreenCursor == 0)
             {
@@ -151,7 +153,7 @@ int main(int argc, char *argv[])
             }
             drawCursor(cursor2);
         }
-        else if (keys & KEY_RIGHT)
+        else if (keys & KEY_R)
         {
             if (topScreenCursor == 5)
             {
