@@ -11,15 +11,12 @@ typedef enum {
     MID_EVENT,
     TASK,
     GATEWAY,
-    FLOW,
-    NONE
+    FLOW
 } BPMNElementType;
 
 // Structure for BPMN elements
 typedef struct {
     BPMNElementType type;
-    int width, height;
-    int id;
     int connectedTo[10];
     int connectionCount;
     u16* sprite;
@@ -81,7 +78,7 @@ void updateMainSprites() {
   int i, j;
   for (i = 0; i < ROWS; i ++) {
     for (j = 0; j < COLUMNS; j ++) {
-      if (elements[i][j].type != NONE) {
+      if (elements[i][j].type != ELEMENT_NONE) {
         oamSet(&oamSub, 3, i * SIZE_X + canvasOffsetX, j * SIZE_Y + canvasOffsetY, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			elements[i][j].sprite, -1, false, false, false, false, false);
       }
@@ -131,6 +128,17 @@ int main(int argc, char *argv[])
         cursor2[i] = 1 | (1 << 8);
     }
     SPRITE_PALETTE[1] = RGB15(225, 225, 50);
+
+    for (int i = 0; i < ROWS; i ++) {
+      for (int j = 0; j < COLUMNS; j ++) {
+        // ZERO OUT THE elements, idk how to do that
+        elements[i][j].type = ELEMENT_NONE;
+        for (int k = 0; k < 10; k ++) {
+          elements[i][j].connectedTo[k] = -1;
+        }
+        elements[i][j].sprite = NULL;
+      }
+    }
 
     while (pmMainLoop())
     {
@@ -184,9 +192,14 @@ int main(int argc, char *argv[])
         }
         else if (keys & KEY_TOUCH)
         {
-            //placeholder text
+            int gridXPos = (canvasOffsetX + touch.px) / SIZE_X;
+            int gridYPos = (canvasOffsetY + touch.py) / SIZE_Y;
+            elements[gridXPos][gridYPos].type = ELEMENT_NONE;
+            elements[gridXPos][gridYPos].sprite = NULL;
+            // TODO: update to relevant types based on topScreenCursor
         }
 
+        updateMainSprites();
       
     }
     return 0;
