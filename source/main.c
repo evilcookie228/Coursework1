@@ -11,30 +11,34 @@ typedef enum {
     MID_EVENT,
     TASK,
     GATEWAY,
-    FLOW
+    FLOW,
+    NONE
 } BPMNElementType;
 
 // Structure for BPMN elements
 typedef struct {
     BPMNElementType type;
-    int x, y;
     int width, height;
     int id;
     int connectedTo[10];
     int connectionCount;
+    uint16& sprite;
 } BPMNElement;
 
-#define MAX_ELEMENTS 100
+#define ROWS 16
+#define COLUMNS 16
+#define SIZE_X 16
+#define SIZE_Y 16
 #define GREEN RGB15(0, 31, 0)
 #define RED RGB15(31, 0, 0)
 #define WHITE RGB15(31, 31, 31)
 #define BLACK RGB15(0, 0, 0)
 #define GRAY RGB15(15, 15, 15)
 #define BLUE RGB15(0, 0, 31)
-BPMNElement elements[MAX_ELEMENTS];
+BPMNElement elements[ROWS][COLUMNS];
 BPMNElementType currentTool = TASK;
-int canvasOffsetX = 0;
-int canvasOffsetY = 0;
+int canvasOffsetX = SIZE_X * ROWS / 2;
+int canvasOffsetY = SIZE_Y * COLUMNS / 2;
 int drawingFlow = 0;
 int flowStartElement = -1;
 int topScreenCursor = 0;
@@ -68,6 +72,19 @@ void drawCursor(u16* cursor1)
     
 }
 
+
+void updateMainSprites() {
+  int i, j;
+  for (i = 0; i < ROWS; i ++) {
+    for (j = 0; j < COLUMNS; j ++) {
+      if (elements[i][j].type != NONE) {
+        oamSet(&oamSub, 3, i * SIZE_X + canvasOffsetX, j * SIZE_Y + canvasOffsetY, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+			elements[i][j].sprite, -1, false, false, false, false, false);
+      }
+    }
+  }
+}
+
 #ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif
@@ -76,9 +93,6 @@ void drawCursor(u16* cursor1)
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
-void updateCursor(int cursorPosition) {
-  // Clear the previous cursor and re-draw the new one
-}
 
 int main(int argc, char *argv[])
 {
@@ -149,6 +163,24 @@ int main(int argc, char *argv[])
             }
             drawCursor(cursor2);
         }
+        else if (keys & KEY_B)
+        {
+          canvasOffsetX ++;
+        }
+        else if (keys & KEY_A)
+        {
+          canvasOffsetX ++;
+        }
+        else if (keys & KEY_X)
+        {
+          canvasOffsetX --;
+        }
+        else if (keys & KEY_Y)
+        {
+          canvasOffsetY --;
+        }
+
+      
     }
     return 0;
 }
