@@ -49,9 +49,6 @@ void drawCursor(u16* cursor1)
 {
     switch (topScreenCursor)
     {
-        case 0:
-            oamSet(&oamMain, 3, 45, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
-			cursor1, -1, false, false, false, false, false);
         case 1:
             oamSet(&oamMain, 3, 115, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
@@ -72,6 +69,9 @@ void drawCursor(u16* cursor1)
             oamSet(&oamMain, 3, 190, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
             break;
+        default:
+            oamSet(&oamMain, 3, 45, 60, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+			cursor1, -1, false, false, false, false, false);
     }
     oamUpdate(&oamMain);
 }
@@ -181,6 +181,10 @@ int main(int argc, char *argv[])
         else if (keys & KEY_LEFT)
         {
           canvasOffsetY --;
+        }
+        else if (keys & KEY_TOUCH)
+        {
+            //placeholder text
         }
 
       
