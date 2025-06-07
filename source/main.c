@@ -23,6 +23,7 @@ typedef struct {
     int endrow;
     int endcolumn;
 } BPMNElement;
+
 bool arrowdrawn = false;
 int arrowrow = 0;
 int arrowcolumn = 0;
@@ -144,6 +145,20 @@ void drawRectangle(int x, int y, u16 color) {
     BG_GFX_SUB[(y + height - 1) * SCREEN_WIDTH + (x)] = GRAYFANCY;
     BG_GFX_SUB[(y + height - 1) * SCREEN_WIDTH + (x + width - 1)] = GRAYFANCY;
 }
+
+void drawArrow(BPMNElement Arrow, u16 color)
+{
+    int x1 = Arrow.startcolumn;
+    int y1 = Arrow.startrow;
+    int x2 = Arrow.endcolumn;
+    int y2 = Arrow.endrow;
+
+    if (x1 - canvasOffsetX >= 16) {x1 = 15;}
+    if (x2 - canvasOffsetX >= 16) {x2 = 15;}
+    if (y1 - canvasOffsetX >= 12) {x1 = 11;}
+    if (y2 - canvasOffsetX >= 12) {x2 = 11;}
+}
+
 
 void drawCircle(int xc, int yc, u16 color) {
     const int radius = 7; // For 16x16 circle (diameter 15)
