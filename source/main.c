@@ -485,7 +485,7 @@ int main(int argc, char *argv[])
             int newx = touch.px / SIZE_X;
             int newy = touch.py / SIZE_Y;
             //highlightGrid(touch.px, touch.py);
-            if (currentTool != 5)
+            if (topScreenCursor != 5)
             {
                 arrowdrawn = false;
                 addFigure(newx + canvasOffsetX, newy + canvasOffsetY);
