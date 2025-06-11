@@ -172,8 +172,8 @@ void drawArrow(BPMNElement Arrow, u16 color)
     
     for (int i = MIN(x1, x2); i < MAX(x1, x2); i++)
     {
-        BG_GFX_SUB[(y1 + 8) * SCREEN_WIDTH + i + 8] = color;
-        BG_GFX_SUB[(y1 + 9) * SCREEN_WIDTH + i + 8] = color;
+        BG_GFX_SUB[(y2 + 8) * SCREEN_WIDTH + i + 8] = color;
+        BG_GFX_SUB[(y2 + 9) * SCREEN_WIDTH + i + 8] = color;
     }
 
     for (int i = MIN(y1, y2); i < MAX(y1, y2); i++)
