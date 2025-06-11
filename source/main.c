@@ -47,6 +47,7 @@ int arrowcolumn = 0;
 #define GRAYFANCY ARGB16(1, 15, 15, 15)
 #define BLACKFANCY ARGB16(1, 0, 0, 0)
 #define WHITEFANCY ARGB16(1, 31, 31, 31)
+#define BLUEFANCY ARGB16(1, 0, 0, 31)
 
 BPMNElement elements[ROWS][COLUMNS];
 BPMNElement flows[64];
@@ -71,15 +72,19 @@ void drawCursor(u16* cursor1)
 			cursor1, -1, false, false, false, false, false);
             break;
         case 3:
-            oamSet(&oamMain, 3, 45, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 35, 135, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
             break;
         case 4:
-            oamSet(&oamMain, 3, 116, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 95, 135, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
             break;
         case 5:
-            oamSet(&oamMain, 3, 190, 145, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+            oamSet(&oamMain, 3, 160, 135, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
+			cursor1, -1, false, false, false, false, false);
+            break;
+        case 6:
+            oamSet(&oamMain, 3, 210, 135, 0, 0, SpriteSize_32x32, SpriteColorFormat_256Color,
 			cursor1, -1, false, false, false, false, false);
             break;
         default:
@@ -157,6 +162,25 @@ void drawArrow(BPMNElement Arrow, u16 color)
     if (x2 - canvasOffsetX >= 16) {x2 = 15;}
     if (y1 - canvasOffsetX >= 12) {x1 = 11;}
     if (y2 - canvasOffsetX >= 12) {x2 = 11;}
+
+    x1 *= 16;
+    x2 *= 16;
+    y1 *= 16;
+    y2 *= 16;
+    // Draw line using Bresenham's algorithm
+    
+    
+    for (int i = MIN(x1, x2); i < MAX(x1, x2); i++)
+    {
+        BG_GFX_SUB[(y1 + 8) * SCREEN_WIDTH + i + 8] = color;
+        BG_GFX_SUB[(y1 + 9) * SCREEN_WIDTH + i + 8] = color;
+    }
+
+    for (int i = MIN(y1, y2); i < MAX(y1, y2), i++)
+    {
+        BG_GFX_SUB[(i + 8) * SCREEN_WIDTH + x1 + 8] = color;
+        BG_GFX_SUB[(i + 8) * SCREEN_WIDTH + x1 + 9] = color;
+    }
 }
 
 
@@ -271,6 +295,14 @@ void addFigure(int x, int y)
             break;
         case 5:
             break;
+        case 6:
+            tempelement.type = ELEMENT_NONE;
+            tempelement.startrow = -1;
+            tempelement.startcolumn = -1;
+            tempelement.endrow = -1;
+            tempelement.endcolumn = -1;
+            elements[y][x] = tempelement;
+            break;
         default:
             tempelement.type = START_EVENT;
             tempelement.startrow = -1;
@@ -312,6 +344,7 @@ void renderCanvas()
     for (int i = 0; i < totalflows; i++)
     {
         BPMNElement currentArrow = flows[i];   
+        drawArrow(currentArrow, BLUEFANCY);
     }
     return;
 }
@@ -391,7 +424,7 @@ int main(int argc, char *argv[])
         {
             if (topScreenCursor == 0)
             {
-                topScreenCursor = 5;
+                topScreenCursor = 6;
             }
             else
             {
@@ -401,7 +434,7 @@ int main(int argc, char *argv[])
         }
         else if (keys & KEY_R)
         {
-            if (topScreenCursor == 5)
+            if (topScreenCursor == 6)
             {
                 topScreenCursor = 0;
             }
@@ -461,20 +494,20 @@ int main(int argc, char *argv[])
             {
                 if (arrowdrawn)
                 {
-                    BPMNElement tempelement; 
+                    BPMNElement tempelement;
                     tempelement.type = FLOW;
                     tempelement.startrow = arrowrow;
                     tempelement.startcolumn = arrowcolumn;
-                    tempelement.endrow = newy;
-                    tempelement.endcolumn = newx;
+                    tempelement.endrow = newy + canvasOffsetY;
+                    tempelement.endcolumn = newx + canvasOffsetX;
                     flows[totalflows] = tempelement;
                     totalflows++;
                     arrowdrawn = false;
                 }
                 else
                 {
-                    arrowrow = newy;
-                    arrowcolumn = newx;
+                    arrowrow = newy + canvasOffsetY;
+                    arrowcolumn = newx + canvasOffsetX;
                     arrowdrawn = true;
                 }
 
