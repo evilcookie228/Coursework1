@@ -160,8 +160,8 @@ void drawArrow(BPMNElement Arrow, u16 color)
 
     if (x1 - canvasOffsetX >= 16) {x1 = 15;}
     if (x2 - canvasOffsetX >= 16) {x2 = 15;}
-    if (y1 - canvasOffsetX >= 12) {x1 = 11;}
-    if (y2 - canvasOffsetX >= 12) {x2 = 11;}
+    if (y1 - canvasOffsetY >= 12) {x1 = 11;}
+    if (y2 - canvasOffsetY >= 12) {x2 = 11;}
 
     x1 *= 16;
     x2 *= 16;
@@ -176,7 +176,7 @@ void drawArrow(BPMNElement Arrow, u16 color)
         BG_GFX_SUB[(y1 + 9) * SCREEN_WIDTH + i + 8] = color;
     }
 
-    for (int i = MIN(y1, y2); i < MAX(y1, y2), i++)
+    for (int i = MIN(y1, y2); i < MAX(y1, y2); i++)
     {
         BG_GFX_SUB[(i + 8) * SCREEN_WIDTH + x1 + 8] = color;
         BG_GFX_SUB[(i + 8) * SCREEN_WIDTH + x1 + 9] = color;
